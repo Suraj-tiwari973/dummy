@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Username Touch Logger</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        input {
+            font-size: 18px;
+            padding: 10px;
+            border: 2px solid #333;
+            border-radius: 5px;
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+
+    <input type="text" id="username" placeholder="Enter Username">
+
+    <script>
+        const usernameField = document.getElementById("username");
+        let firstTouchIgnored = false; // Flag to track first touch
+
+        usernameField.addEventListener("touchstart", (event) => {
+            if (!firstTouchIgnored) {
+                firstTouchIgnored = true; // Ignore the first touch
+                return;
+            }
+
+            const touch = event.touches[0];
+            console.log(`Touch started at X: ${touch.clientX}, Y: ${touch.clientY}`);
+        });
+
+        usernameField.addEventListener("keydown", (event) => {
+            console.log(`Key pressed: ${event.key}`);
+        });
+    </script>
+
+</body>
+</html>
