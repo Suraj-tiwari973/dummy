@@ -13,6 +13,7 @@
             height: 100vh;
             background-color: #f4f4f4;
             flex-direction: column;
+            transition: height 0.3s;
         }
         input {
             font-size: 18px;
@@ -29,30 +30,31 @@
 
     <script>
         const usernameField = document.getElementById("username");
-        let firstTouchIgnoredInput = false;
-        let firstTouchIgnoredScreen = false;
+        let initialHeight = window.innerHeight;
+        let firstTouchIgnored = false;
 
-        // Log touch on input field (ignores the first tap)
+        // Ignore first touch
         usernameField.addEventListener("touchstart", (event) => {
-            if (!firstTouchIgnoredInput) {
-                firstTouchIgnoredInput = true; // Ignore the first touch
+            if (!firstTouchIgnored) {
+                firstTouchIgnored = true;
                 return;
             }
             const touch = event.touches[0];
             console.log(`Input field touched at X: ${touch.clientX}, Y: ${touch.clientY}`);
         });
 
-        // Detect touches anywhere on the screen (ignores the first touch)
-        document.addEventListener("touchstart", (event) => {
-            if (!firstTouchIgnoredScreen) {
-                firstTouchIgnoredScreen = true; // Ignore the first touch
-                return;
+        // Detect screen resize (keyboard appearing)
+        window.addEventListener("resize", () => {
+            let newHeight = window.innerHeight;
+            if (newHeight < initialHeight) {
+                console.log(`Keyboard detected! Estimated position: Bottom of the screen.`);
+            } else {
+                console.log("Keyboard closed.");
             }
-            const touch = event.touches[0];
-            console.log(`Screen touched at X: ${touch.clientX}, Y: ${touch.clientY}`);
+            initialHeight = newHeight;
         });
 
-        // Log key presses when typing in input field
+        // Log key presses
         usernameField.addEventListener("keydown", (event) => {
             console.log(`Key pressed: ${event.key}`);
         });
