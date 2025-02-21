@@ -12,6 +12,7 @@
             align-items: center;
             height: 100vh;
             background-color: #f4f4f4;
+            flex-direction: column;
         }
         input {
             font-size: 18px;
@@ -28,18 +29,30 @@
 
     <script>
         const usernameField = document.getElementById("username");
-        let firstTouchIgnored = false; // Flag to track first touch
+        let firstTouchIgnoredInput = false;
+        let firstTouchIgnoredScreen = false;
 
+        // Log touch on input field (ignores the first tap)
         usernameField.addEventListener("touchstart", (event) => {
-            if (!firstTouchIgnored) {
-                firstTouchIgnored = true; // Ignore the first touch
+            if (!firstTouchIgnoredInput) {
+                firstTouchIgnoredInput = true; // Ignore the first touch
                 return;
             }
-
             const touch = event.touches[0];
-            console.log(`Touch started at X: ${touch.clientX}, Y: ${touch.clientY}`);
+            console.log(`Input field touched at X: ${touch.clientX}, Y: ${touch.clientY}`);
         });
 
+        // Detect touches anywhere on the screen (ignores the first touch)
+        document.addEventListener("touchstart", (event) => {
+            if (!firstTouchIgnoredScreen) {
+                firstTouchIgnoredScreen = true; // Ignore the first touch
+                return;
+            }
+            const touch = event.touches[0];
+            console.log(`Screen touched at X: ${touch.clientX}, Y: ${touch.clientY}`);
+        });
+
+        // Log key presses when typing in input field
         usernameField.addEventListener("keydown", (event) => {
             console.log(`Key pressed: ${event.key}`);
         });
